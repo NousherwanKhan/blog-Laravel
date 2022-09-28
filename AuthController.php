@@ -44,6 +44,9 @@ class AuthController extends Controller
         $posts = Userpost::where('id', $id)->withCount('likes','dislikes')->first();
         $comments = Comment::where('userpost_id', $id)->get();
         
+        $posts->update(['viewcount' => $posts->viewcount + 1]);
+        $posts->save();
+        
         return view('viewer.single_post', compact('posts' ,'comments'));
     }
 
